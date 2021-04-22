@@ -1,6 +1,7 @@
-import '../styles/App.css';
+import "../styles/App.css";
 import React, { useEffect, useState } from "react";
-import apiCall from '../services/api'
+import apiCall from "../services/api";
+import Weather from "./Weather/Weather";
 
 function App() {
   const [latitude, setLatitude] = useState([]);
@@ -13,17 +14,24 @@ function App() {
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude);
       });
-      await apiCall(latitude, longitude).then(result => {
-        setData(result)
-        console.log(result)
+      await apiCall(latitude, longitude).then((result) => {
+        setData(result);
+        console.log(result);
       });
-    }
+    };
     fetchData();
-  }, [latitude,longitude])
+  }, [latitude, longitude]);
   return (
-    <h1 className="App">
-      My Weather App
-    </h1>
+    <>
+      <h1 className="App">My Weather App</h1>
+      <div className="App">
+        {typeof data.main != "undefined" ? (
+          <Weather weatherData={data} />
+        ) : (
+          <div></div>
+        )}
+      </div>
+    </>
   );
 }
 
